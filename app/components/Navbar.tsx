@@ -13,7 +13,6 @@ const menuItems = [
   { label: "หน้าแรก", path: "/" },
   { label: "ผลิตภัณฑ์", path: "/products" },
   { label: "การดูแลพืช", path: "/plants" },
-  { label: "ปฏิทิน", path: "/calendar" },
 ];
 
 const Navbar = () => {

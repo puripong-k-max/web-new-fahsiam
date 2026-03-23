@@ -74,43 +74,34 @@ export default function PlantDetailClient({ plant }: { plant: Plant }) {
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2">
         
         <div className="lg:col-span-4 flex flex-col gap-2">
-          <div className="bg-white border-2 border-gray-400 p-2">
-            <div className="relative w-full aspect-[4/3] mb-2 overflow-hidden border-2 border-gray-300">
+          <div className="bg-white border border-gray-400 p-2">
+            <div className="relative w-full aspect-[4/3] mb-2 overflow-hidden border border-gray-300">
               <Image src={plant.image} alt={plant.name} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" priority />
             </div>
             <div className="p-1 mb-3">
-              <h1 className="text-2xl font-bold text-gray-800 mb-1">{plant.name}</h1>
-              <p className="text-xs text-gray-600 leading-relaxed border-l-2 border-gray-400 pl-2">{plant.desc}</p>
+              <h1 className="text-xl font-bold text-gray-800 mb-1">{plant.name}</h1>
+              <p className="text-xs text-gray-600 leading-relaxed border-l border-gray-300 pl-2">{plant.desc}</p>
             </div>
 
-            <div className="flex flex-col gap-2 pb-1">
-              <div className="bg-yellow-50 border-2 border-yellow-600 p-2 flex items-start gap-2">
-                <div className="text-2xl mt-0.5">☀️</div>
-                <div>
-                  <h3 className="font-bold text-gray-800 text-sm mb-0.5">Sunlight</h3>
-                  <p className="text-xs text-gray-700 leading-relaxed">{plant.sunlight}</p>
-                </div>
+            <div className="flex flex-col gap-2 pb-1 text-sm">
+              <div className="border border-gray-300 p-2 bg-white">
+                <h3 className="font-bold text-gray-800 text-sm mb-1">Sunlight</h3>
+                <p className="text-xs text-gray-700">{plant.sunlight}</p>
               </div>
 
-              <div className="bg-blue-50 border-2 border-blue-600 p-2 flex items-start gap-2">
-                <div className="text-2xl mt-0.5">💧</div>
-                <div>
-                  <h3 className="font-bold text-gray-800 text-sm mb-0.5">Watering</h3>
-                  <p className="text-xs text-gray-700 leading-relaxed">{plant.watering}</p>
-                </div>
+              <div className="border border-gray-300 p-2 bg-white">
+                <h3 className="font-bold text-gray-800 text-sm mb-1">Watering</h3>
+                <p className="text-xs text-gray-700">{plant.watering}</p>
               </div>
 
-              <div className="bg-purple-50 border-2 border-purple-600 p-2 mt-1">
-                <div className="flex items-start gap-2 mb-2">
-                  <div className="text-xl">💎</div>
-                  <h3 className="font-bold text-gray-800 text-sm">Fertilizers [WIP]</h3>
-                </div>
+              <div className="border border-gray-300 p-2 bg-white">
+                <h3 className="font-bold text-gray-800 text-sm mb-2">Fertilizers</h3>
                 <ul className="text-xs text-gray-700 space-y-1 ml-1 font-normal">
                   {plant.fertilizer.map((fert, idx) => (
-                    <li key={idx} className="border-l-2 border-purple-400 pl-1 py-0.5">
+                    <li key={idx} className="border-l border-gray-300 pl-1 py-0.5">
                       <Link 
                         href={getFertilizerLink(fert)} 
-                        className="text-purple-700 underline"
+                        className="text-blue-600 underline"
                       >
                         {fert}
                       </Link>
@@ -123,106 +114,89 @@ export default function PlantDetailClient({ plant }: { plant: Plant }) {
         </div>
 
         <div className="lg:col-span-8 flex flex-col gap-2">
-          <div className="bg-white border-2 border-gray-400 p-3 flex-1">
-            <div className="mb-3 pb-2 border-b-2 border-gray-300">
-              <h2 className="text-lg font-bold text-gray-800">Growing Guide - {plant.name}</h2>
-              <p className="text-xs text-gray-500 italic">[ TODO: Add detailed instructions ]</p>
+          <div className="bg-white border border-gray-400 p-3 flex-1">
+            <div className="mb-3 pb-2 border-b border-gray-300">
+              <h2 className="text-base font-bold text-gray-800">Growing Steps - {plant.name}</h2>
+              <p className="text-xs text-gray-500">[ Fill in data as available ]</p>
             </div>
 
             <div className="flex flex-col gap-1 mb-3">
               {plant.howToGrow.map((step, idx) => {
                 const isChecked = checkedSteps[idx];
                 const isActive = activeStep === idx;
-                const isLocked = idx > 0 && !checkedSteps[idx - 1] && !isChecked;
 
                 return (
                   <div 
                     key={idx} 
                     onClick={() => {
-                      if (!isLocked) {
-                        handleCheck(idx);
-                        setActiveStep(idx);
-                      }
+                      handleCheck(idx);
+                      setActiveStep(idx);
                     }}
-                    className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${
+                    className={`flex items-center gap-3 p-3 border-l-4 ${
                       isActive 
-                        ? "border-sky-700 bg-sky-50 shadow-md scale-[1.01]" 
-                        : isLocked 
-                          ? "bg-slate-50 border-slate-100 opacity-50 cursor-not-allowed" 
-                          : "bg-white border-slate-100 hover:border-blue-200 cursor-pointer"
+                        ? "border-l-blue-600 bg-gray-50 border border-gray-300" 
+                        : "border-l-gray-300 bg-white border border-gray-200"
                     }`}
                   >
                     <input
                       type="checkbox"
                       checked={isChecked}
-                      disabled={isLocked}
                       onChange={() => handleCheck(idx)}
                       onClick={(e) => e.stopPropagation()} 
-                      className={`w-5 h-5 rounded border-sky-300 text-sky-700 focus:ring-sky-700 transition-all ${
-                        isLocked ? "cursor-not-allowed bg-slate-100" : "cursor-pointer"
-                      }`}
+                      className="w-4 h-4 cursor-pointer"
                     />
 
                     <div className="flex flex-col">
-                      <span className={`text-[10px] font-bold uppercase tracking-wider ${isLocked ? "text-slate-400" : "text-sky-700/70"}`}>
-                        Step {idx + 1} {isLocked && "🔒 Locked"}
+                      <span className="text-xs text-gray-500">
+                        Step {idx + 1}
                       </span>
-                      <span className={`font-bold text-sm md:text-base ${isActive ? "text-sky-700" : isLocked ? "text-slate-400" : "text-slate-700"}`}>
+                      <span className={`font-semibold text-sm ${isActive ? "text-blue-700" : "text-gray-700"}`}>
                         {step}
                       </span>
                     </div>
-
-                    {isActive && (
-                      <div className="ml-auto flex items-center gap-1.5">
-                        <span className="w-2 h-2 bg-sky-500 rounded-full animate-ping"></span>
-                        <span className="text-[10px] text-sky-600 font-black">ACTIVE</span>
-                      </div>
-                    )}
                   </div>
                 );
               })}
             </div>
 
-            <div className="mb-8 bg-sky-50/50 p-4 rounded-2xl border border-sky-100">
-              <div className="flex justify-between text-xs font-black text-sky-700 mb-2 uppercase tracking-widest">
-                <span>ความคืบหน้า</span>
+            <div className="mb-6 p-3 border border-gray-300 bg-white">
+              <div className="flex justify-between text-xs text-gray-600 mb-2">
+                <span>Progress</span>
                 <span>{progress}%</span>
               </div>
-              <div className="w-full bg-white rounded-full h-3 overflow-hidden border border-sky-100">
+              <div className="w-full bg-gray-200 h-2 border border-gray-300">
                 <div 
-                  className="bg-gradient-to-r from-sky-400 to-sky-700 h-full transition-all duration-1000 ease-out" 
+                  className="bg-blue-500 h-full" 
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
             </div>
 
-            <div className={`transition-all duration-500 ${currentPhase ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              {currentPhase && (
-                <div className="bg-sky-50 border border-sky-200 rounded-[1.5rem] p-6 border-l-[6px] border-l-sky-700">
-                  <h3 className="text-lg font-black text-slate-800 mb-4 flex items-center gap-2">
-                    💡 วิธีการ: {currentPhase.title}
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-white/80 p-4 rounded-xl shadow-sm">
-                      <p className="text-xs font-black text-sky-600 mb-2 uppercase tracking-widest">สิ่งที่ต้องปฏิบัติ</p>
-                      <ul className="space-y-2">
-                        {currentPhase.actions.map((act, i) => (
-                          <li key={i} className="text-sm text-slate-600 flex gap-2 font-medium">
-                            <span className="text-sky-500">✓</span> {act}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {currentPhase.fertilizers && currentPhase.fertilizers.length > 0 && (
-                      <div className="bg-sky-700 p-4 rounded-xl text-white shadow-lg shadow-sky-900/20">
-                        <p className="text-[10px] font-bold opacity-80 mb-1 uppercase tracking-widest text-sky-100">สูตรปุ๋ยแนะนำ</p>
-                        <p className="text-sm font-black">{currentPhase.fertilizers.join(" / ")}</p>
-                      </div>
-                    )}
+            {currentPhase && (
+              <div className="p-4 border border-gray-300 bg-gray-50">
+                <h3 className="text-base font-bold text-gray-800 mb-3">
+                  Phase: {currentPhase.title}
+                </h3>
+                <div className="space-y-3">
+                  <div className="p-3 border border-gray-200 bg-white">
+                    <p className="text-xs font-semibold text-gray-700 mb-2">ACTIONS</p>
+                    <ul className="space-y-1">
+                      {currentPhase.actions.map((act, i) => (
+                        <li key={i} className="text-sm text-gray-700">
+                          • {act}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                  {currentPhase.fertilizers && currentPhase.fertilizers.length > 0 && (
+                    <div className="p-3 border border-gray-300 bg-white">
+                      <p className="text-xs font-semibold text-gray-700 mb-2">FERTILIZERS</p>
+                      <p className="text-sm text-gray-700">{currentPhase.fertilizers.join(" / ")}</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
           </div>
         </div>

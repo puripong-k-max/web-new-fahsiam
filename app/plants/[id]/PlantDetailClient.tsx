@@ -55,57 +55,62 @@ export default function PlantDetailClient({ plant }: { plant: Plant }) {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8 px-4 font-sans text-slate-800">
+    <div className="min-h-screen bg-gray-100 py-4 px-2 font-sans text-slate-800">
       
-      <div className="max-w-5xl mx-auto mb-6">
+      <div className="max-w-5xl mx-auto mb-4">
         <button 
           onClick={() => router.back()} 
-          className="flex items-center gap-2 text-slate-500 hover:text-sky-700 font-bold text-sm bg-white px-5 py-2.5 rounded-full shadow-sm border border-slate-200 hover:border-sky-200 transition-all duration-300 hover:-translate-x-1"
+          className="flex items-center gap-2 text-slate-700 font-bold text-sm bg-gray-300 px-3 py-1 border-2 border-gray-400 hover:bg-gray-400"
         >
-          <span className="text-lg leading-none">←</span> ย้อนกลับ
+          <span className="text-lg leading-none">←</span> Back
         </button>
       </div>
 
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="max-w-5xl mx-auto mb-4 p-2 bg-yellow-100 border-4 border-yellow-400">
+        <p className="text-xs font-bold text-yellow-900">⚠️ WIP - UNDER CONSTRUCTION - Data still being added</p>
+        <p className="text-xs text-yellow-800 mt-1">Last updated: checking...</p>
+      </div>
+
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2">
         
-        <div className="lg:col-span-4 flex flex-col gap-6">
-          <div className="bg-white rounded-[2rem] border border-sky-100 p-4 shadow-sm">
-            <div className="relative w-full aspect-[4/3] rounded-[1.5rem] mb-5 shadow-inner overflow-hidden">
+        <div className="lg:col-span-4 flex flex-col gap-2">
+          <div className="bg-white border-2 border-gray-400 p-2">
+            <div className="relative w-full aspect-[4/3] mb-2 overflow-hidden border-2 border-gray-300">
               <Image src={plant.image} alt={plant.name} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" priority />
             </div>
-            <div className="px-2 mb-6">
-              <h1 className="text-4xl font-black text-sky-700 mb-2 drop-shadow-sm">{plant.name}</h1>
-              <p className="text-sm text-slate-500 leading-relaxed">{plant.desc}</p>
+            <div className="p-1 mb-3">
+              <h1 className="text-2xl font-bold text-gray-800 mb-1">{plant.name}</h1>
+              <p className="text-xs text-gray-600 leading-relaxed border-l-2 border-gray-400 pl-2">{plant.desc}</p>
             </div>
 
-            <div className="flex flex-col gap-3 px-2 pb-2">
-              <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 flex items-start gap-4">
-                <div className="text-3xl mt-1">☀️</div>
+            <div className="flex flex-col gap-2 pb-1">
+              <div className="bg-yellow-50 border-2 border-yellow-600 p-2 flex items-start gap-2">
+                <div className="text-2xl mt-0.5">☀️</div>
                 <div>
-                  <h3 className="font-extrabold text-slate-800 text-lg leading-tight mb-1">แสงแดด</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{plant.sunlight}</p>
+                  <h3 className="font-bold text-gray-800 text-sm mb-0.5">Sunlight</h3>
+                  <p className="text-xs text-gray-700 leading-relaxed">{plant.sunlight}</p>
                 </div>
               </div>
 
-              <div className="bg-sky-50 border border-sky-100 rounded-2xl p-4 flex items-start gap-4">
-                <div className="text-3xl mt-1">💧</div>
+              <div className="bg-blue-50 border-2 border-blue-600 p-2 flex items-start gap-2">
+                <div className="text-2xl mt-0.5">💧</div>
                 <div>
-                  <h3 className="font-extrabold text-slate-800 text-lg leading-tight mb-1">การรดน้ำ</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{plant.watering}</p>
+                  <h3 className="font-bold text-gray-800 text-sm mb-0.5">Watering</h3>
+                  <p className="text-xs text-gray-700 leading-relaxed">{plant.watering}</p>
                 </div>
               </div>
 
-              <div className="bg-sky-50 border border-sky-100 rounded-2xl p-5 mt-2">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="text-2xl">💎</div>
-                  <h3 className="font-extrabold text-sky-700 text-lg">ปุ๋ยแนะนำสำหรับคุณ</h3>
+              <div className="bg-purple-50 border-2 border-purple-600 p-2 mt-1">
+                <div className="flex items-start gap-2 mb-2">
+                  <div className="text-xl">💎</div>
+                  <h3 className="font-bold text-gray-800 text-sm">Fertilizers [WIP]</h3>
                 </div>
-                <ul className="list-disc list-inside text-sm text-slate-700 space-y-1.5 ml-2 font-medium">
+                <ul className="text-xs text-gray-700 space-y-1 ml-1 font-normal">
                   {plant.fertilizer.map((fert, idx) => (
-                    <li key={idx} className="marker:text-sky-400">
+                    <li key={idx} className="border-l-2 border-purple-400 pl-1 py-0.5">
                       <Link 
                         href={getFertilizerLink(fert)} 
-                        className="hover:text-sky-700 hover:underline transition-colors"
+                        className="text-purple-700 underline"
                       >
                         {fert}
                       </Link>
@@ -117,14 +122,14 @@ export default function PlantDetailClient({ plant }: { plant: Plant }) {
           </div>
         </div>
 
-        <div className="lg:col-span-8 flex flex-col gap-6">
-          <div className="bg-white rounded-[2rem] border border-sky-100 p-8 shadow-sm flex-1">
-            <div className="mb-8">
-              <h2 className="text-2xl font-extrabold text-slate-800">คู่มือการปลูก{plant.name}</h2>
-              <p className="text-sm text-slate-500 italic">ดำเนินการตามขั้นตอนเพื่อรับผลผลิตที่ยอดเยี่ยม</p>
+        <div className="lg:col-span-8 flex flex-col gap-2">
+          <div className="bg-white border-2 border-gray-400 p-3 flex-1">
+            <div className="mb-3 pb-2 border-b-2 border-gray-300">
+              <h2 className="text-lg font-bold text-gray-800">Growing Guide - {plant.name}</h2>
+              <p className="text-xs text-gray-500 italic">[ TODO: Add detailed instructions ]</p>
             </div>
 
-            <div className="flex flex-col gap-3 mb-8">
+            <div className="flex flex-col gap-1 mb-3">
               {plant.howToGrow.map((step, idx) => {
                 const isChecked = checkedSteps[idx];
                 const isActive = activeStep === idx;
